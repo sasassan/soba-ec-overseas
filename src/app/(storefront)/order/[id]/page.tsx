@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrder, getOrderItems } from "@/lib/db";
 import { formatUsd } from "@/lib/pricing";
+import { DEMO_NOTICE } from "@/lib/store-labels";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +29,7 @@ export default async function OrderConfirmationPage({
           {order.order_number}
         </h1>
         <p className="mt-2 text-cream-dim">
-          Thank you — this is a test order for the demo.
+          Thank you — this is a test order for the demo. {DEMO_NOTICE}.
         </p>
 
         <div className="mt-8 border-t border-ink-line pt-6">
@@ -88,12 +89,6 @@ export default async function OrderConfirmationPage({
             className="rounded border border-gold px-4 py-2 text-gold hover:bg-gold/10 transition-colors"
           >
             Build another box
-          </Link>
-          <Link
-            href="/admin/orders"
-            className="rounded border border-ink-line px-4 py-2 text-cream-dim hover:border-gold-soft transition-colors"
-          >
-            Admin orders
           </Link>
         </div>
       </div>

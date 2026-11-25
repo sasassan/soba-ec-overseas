@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DEMO_NOTICE, SHIPPING_DESTINATION } from "@/lib/store-labels";
 
 const navItems = [
   { href: "/products", label: "Products" },
@@ -15,9 +16,7 @@ export default function StorefrontLayout({
   return (
     <>
       <div className="border-b border-ink-line bg-gold/10 px-4 py-1.5 text-center text-xs text-cream">
-        Demo store — products, prices, and shipping are placeholders. Test
-        orders only (sample US address); no real payment or shipping labels are
-        issued.
+        {DEMO_NOTICE}. {SHIPPING_DESTINATION}.
       </div>
       <header className="border-b border-ink-line bg-ink/90 sticky top-0 z-20 backdrop-blur">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 flex items-center justify-between h-16">
@@ -50,10 +49,10 @@ export default function StorefrontLayout({
             Soba<span className="text-gold"> House</span>
           </p>
           <p className="mt-2">
-            Artisan Japanese buckwheat noodles, shipped worldwide.
+            Artisan Japanese buckwheat noodles. {SHIPPING_DESTINATION}.
           </p>
           <p className="mt-4 text-xs text-cream-dim/70">
-            Demo storefront — all products and prices are placeholders.
+            {DEMO_NOTICE}.
           </p>
         </div>
       </footer>

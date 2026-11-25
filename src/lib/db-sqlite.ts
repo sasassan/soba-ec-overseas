@@ -4,7 +4,7 @@ import Database from "better-sqlite3";
 import fs from "node:fs";
 import path from "node:path";
 import { products } from "@/data/products";
-import { seasonalBoxTemplate } from "@/data/seasonal-box";
+import { seasonalBoxTemplates } from "@/data/seasonal-box";
 import type {
   CreateOrderInput,
   DbDriver,
@@ -98,17 +98,18 @@ function seed(database: Database.Database): void {
   });
   insertMany();
 
-  database
-    .prepare(
-      `INSERT OR IGNORE INTO seasonal_box_templates (id, name_en, name_ja, slots_json)
-       VALUES (@id, @nameEn, @nameJa, @slotsJson)`
-    )
-    .run({
-      id: seasonalBoxTemplate.id,
-      nameEn: seasonalBoxTemplate.nameEn,
-      nameJa: seasonalBoxTemplate.nameJa,
-      slotsJson: JSON.stringify(seasonalBoxTemplate.slots),
+  const insertTemplate = database.prepare(
+    `INSERT OR IGNORE INTO seasonal_box_templates (id, name_en, name_ja, slots_json)
+     VALUES (@id, @nameEn, @nameJa, @slotsJson)`
+  );
+  for (const template of seasonalBoxTemplates) {
+    insertTemplate.run({
+      id: template.id,
+      nameEn: template.nameEn,
+      nameJa: template.nameJa,
+      slotsJson: JSON.stringify(template.slots),
     });
+  }
 }
 
 function getSqlite(): Database.Database {

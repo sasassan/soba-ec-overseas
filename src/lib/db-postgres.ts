@@ -2,7 +2,7 @@ import "server-only";
 
 import { Pool } from "pg";
 import { products } from "@/data/products";
-import { seasonalBoxTemplate } from "@/data/seasonal-box";
+import { seasonalBoxTemplates } from "@/data/seasonal-box";
 import type {
   CreateOrderInput,
   DbDriver,
@@ -148,17 +148,19 @@ async function ensureSchema(): Promise<void> {
         );
       }
 
-      await client.query(
-        `INSERT INTO seasonal_box_templates (id, name_en, name_ja, slots_json)
-         VALUES ($1, $2, $3, $4)
-         ON CONFLICT (id) DO NOTHING`,
-        [
-          seasonalBoxTemplate.id,
-          seasonalBoxTemplate.nameEn,
-          seasonalBoxTemplate.nameJa,
-          JSON.stringify(seasonalBoxTemplate.slots),
-        ]
-      );
+      for (const template of seasonalBoxTemplates) {
+        await client.query(
+          `INSERT INTO seasonal_box_templates (id, name_en, name_ja, slots_json)
+           VALUES ($1, $2, $3, $4)
+           ON CONFLICT (id) DO NOTHING`,
+          [
+            template.id,
+            template.nameEn,
+            template.nameJa,
+            JSON.stringify(template.slots),
+          ]
+        );
+      }
     } finally {
       client.release();
     }
