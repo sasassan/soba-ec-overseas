@@ -11,8 +11,9 @@ An MVP e-commerce storefront for Japanese soba noodles, built with
 
 - **English storefront** (`/`) — top page, product list, product detail,
   preference-based filtering, per-product "How to Eat" guides, and a
-  configurable **Seasonal Box** (3 noodles + 1 tsuyu) with real-time
-  weight / shipping / total calculation.
+  configurable **Seasonal Box** with two sizes — **Tasting Box** (3 noodles ×
+  1 serving + small tsuyu) and **Sharing Box** (3 noodles × 2 servings + large
+  tsuyu) — with real-time weight / shipping / total calculation.
 - **Test ordering** — "Place Test Order" pre-fills a sample US address and
   saves the order (with price/name/weight snapshots) to SQLite.
 - **Japanese admin** (`/admin`) — password-protected order list, packing
@@ -144,6 +145,13 @@ The schema is identical for SQLite and PostgreSQL (see `schema.sql` for the
 PostgreSQL DDL; `src/lib/db-sqlite.ts` has the SQLite equivalent).
 
 - `products` — product master (seeded from `src/data/products.ts`)
-- `seasonal_box_templates` — seasonal box template (seeded)
+- `seasonal_box_templates` — seasonal box templates (seeded)
 - `orders` — order header (order number, address, totals, status)
 - `order_items` — order lines (snapshot of name, price, weight at order time)
+
+## Box plans & go-live
+
+- [`docs/box-plans.md`](docs/box-plans.md) — Tasting/Sharing box weights,
+  US shipping rates (Japan Post AIR PACKET), and shipping-included totals.
+- [`docs/go-live-checklist.md`](docs/go-live-checklist.md) — checklist for
+  moving from demo mode to real payments and shipping.

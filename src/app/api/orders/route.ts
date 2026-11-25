@@ -80,7 +80,7 @@ export async function POST(request: Request) {
       productNameJa: product.nameJa,
       unitPriceUsd: product.priceUsd,
       quantity: quantity as number,
-      weightGrams: product.weightGrams,
+      weightGrams: product.packagingWeight,
     });
   }
 

@@ -19,6 +19,18 @@ export interface Product {
   flavorAndTexture: string;
   netQuantity: string;
   weightGrams: number;
+  /**
+   * Net grams of one serving (1食分). For noodles this is the dried weight of
+   * a single portion; for tsuyu it is the amount used for one bowl.
+   */
+  servingSize: number;
+  /**
+   * Shipped weight in grams of one boxed unit (container included). For
+   * noodles this is one single-serving pouch; for tsuyu it is one bottle/bag.
+   * Provisional (estimated, not yet weighed on a scale).
+   */
+  packagingWeight: number;
+  packagingWeightProvisional: boolean;
   ingredients: string;
   allergens: string[];
   glutenFree: boolean;
@@ -75,6 +87,9 @@ export const products: Product[] = [
       "Made with 100% buckwheat flour and no wheat. Deep, nutty buckwheat aroma with a firm, slightly rustic bite.",
     netQuantity: "200g",
     weightGrams: 220,
+    servingSize: 100,
+    packagingWeight: 105,
+    packagingWeightProvisional: true,
     ingredients: "Buckwheat flour.",
     allergens: ["Buckwheat"],
     glutenFree: true,
@@ -97,6 +112,9 @@ export const products: Product[] = [
       "80% buckwheat blended with 20% wheat for a balanced flavor and a smoother, springier texture that's easy to eat.",
     netQuantity: "250g",
     weightGrams: 275,
+    servingSize: 100,
+    packagingWeight: 105,
+    packagingWeightProvisional: true,
     ingredients: "Buckwheat flour, wheat flour.",
     allergens: ["Buckwheat", "Wheat"],
     glutenFree: false,
@@ -119,6 +137,9 @@ export const products: Product[] = [
       "Stone-ground green tea (matcha) kneaded into the dough for a delicate tea fragrance and a gentle green hue.",
     netQuantity: "200g",
     weightGrams: 220,
+    servingSize: 100,
+    packagingWeight: 105,
+    packagingWeightProvisional: true,
     ingredients: "Buckwheat flour, wheat flour, green tea powder.",
     allergens: ["Buckwheat", "Wheat"],
     glutenFree: false,
@@ -141,6 +162,9 @@ export const products: Product[] = [
       "Bound with funori seaweed instead of wheat, giving a smooth, slippery texture and a clean buckwheat taste.",
     netQuantity: "200g",
     weightGrams: 225,
+    servingSize: 100,
+    packagingWeight: 105,
+    packagingWeightProvisional: true,
     ingredients: "Buckwheat flour, funori (seaweed).",
     allergens: ["Buckwheat"],
     glutenFree: true,
@@ -163,6 +187,9 @@ export const products: Product[] = [
       "Made from tartary buckwheat, prized for its intense nutty flavor and higher rutin content.",
     netQuantity: "180g",
     weightGrams: 200,
+    servingSize: 90,
+    packagingWeight: 95,
+    packagingWeightProvisional: true,
     ingredients: "Tartary buckwheat flour.",
     allergens: ["Buckwheat"],
     glutenFree: true,
@@ -185,6 +212,9 @@ export const products: Product[] = [
       "Made from the refined white core of buckwheat for a pale color, delicate sweetness, and an exceptionally smooth texture.",
     netQuantity: "200g",
     weightGrams: 215,
+    servingSize: 100,
+    packagingWeight: 105,
+    packagingWeightProvisional: true,
     ingredients: "Refined buckwheat flour (white buckwheat).",
     allergens: ["Buckwheat"],
     glutenFree: true,
@@ -207,6 +237,9 @@ export const products: Product[] = [
       "A concentrated blend of soy sauce, bonito, and kombu dashi. Dilute to taste for dipping or hot broth.",
     netQuantity: "300ml",
     weightGrams: 330,
+    servingSize: 44,
+    packagingWeight: 360,
+    packagingWeightProvisional: true,
     ingredients:
       "Soy sauce (soy, wheat), mirin, sugar, bonito extract, kombu extract, yeast extract.",
     allergens: ["Soy", "Wheat", "Fish"],
@@ -230,6 +263,9 @@ export const products: Product[] = [
       "A balanced, ready-to-use soba broth made with soy sauce, bonito, and kombu. No dilution required.",
     netQuantity: "500ml",
     weightGrams: 540,
+    servingSize: 165,
+    packagingWeight: 580,
+    packagingWeightProvisional: true,
     ingredients:
       "Soy sauce (soy, wheat), mirin, sugar, bonito extract, kombu extract, yeast extract.",
     allergens: ["Soy", "Wheat", "Fish"],

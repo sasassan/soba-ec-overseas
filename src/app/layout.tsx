@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: "%s — Soba House",
   },
   description:
-    "Premium Japanese soba noodles and tsuyu broth, shipped worldwide. Demo storefront.",
+    "Premium Japanese soba noodles and tsuyu broth. Demo storefront — no real payments or shipments. Ships to the United States.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
