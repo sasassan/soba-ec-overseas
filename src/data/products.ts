@@ -74,7 +74,7 @@ export const products: Product[] = [
     flavorAndTexture:
       "Made with 100% buckwheat flour and no wheat. Deep, nutty buckwheat aroma with a firm, slightly rustic bite.",
     netQuantity: "200g",
-    weightGrams: 200,
+    weightGrams: 220,
     ingredients: "Buckwheat flour.",
     allergens: ["Buckwheat"],
     glutenFree: true,
@@ -96,7 +96,7 @@ export const products: Product[] = [
     flavorAndTexture:
       "80% buckwheat blended with 20% wheat for a balanced flavor and a smoother, springier texture that's easy to eat.",
     netQuantity: "250g",
-    weightGrams: 250,
+    weightGrams: 275,
     ingredients: "Buckwheat flour, wheat flour.",
     allergens: ["Buckwheat", "Wheat"],
     glutenFree: false,
@@ -118,7 +118,7 @@ export const products: Product[] = [
     flavorAndTexture:
       "Stone-ground green tea (matcha) kneaded into the dough for a delicate tea fragrance and a gentle green hue.",
     netQuantity: "200g",
-    weightGrams: 200,
+    weightGrams: 220,
     ingredients: "Buckwheat flour, wheat flour, green tea powder.",
     allergens: ["Buckwheat", "Wheat"],
     glutenFree: false,
@@ -140,7 +140,7 @@ export const products: Product[] = [
     flavorAndTexture:
       "Bound with funori seaweed instead of wheat, giving a smooth, slippery texture and a clean buckwheat taste.",
     netQuantity: "200g",
-    weightGrams: 200,
+    weightGrams: 225,
     ingredients: "Buckwheat flour, funori (seaweed).",
     allergens: ["Buckwheat"],
     glutenFree: true,
@@ -162,7 +162,7 @@ export const products: Product[] = [
     flavorAndTexture:
       "Made from tartary buckwheat, prized for its intense nutty flavor and higher rutin content.",
     netQuantity: "180g",
-    weightGrams: 180,
+    weightGrams: 200,
     ingredients: "Tartary buckwheat flour.",
     allergens: ["Buckwheat"],
     glutenFree: true,
@@ -184,7 +184,7 @@ export const products: Product[] = [
     flavorAndTexture:
       "Made from the refined white core of buckwheat for a pale color, delicate sweetness, and an exceptionally smooth texture.",
     netQuantity: "200g",
-    weightGrams: 200,
+    weightGrams: 215,
     ingredients: "Refined buckwheat flour (white buckwheat).",
     allergens: ["Buckwheat"],
     glutenFree: true,

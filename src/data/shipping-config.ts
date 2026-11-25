@@ -21,11 +21,11 @@ export interface ShippingConfig {
 
 export const shippingConfig: ShippingConfig = {
   packagingWeightGrams: 120,
-  weightLimitGrams: 600,
+  weightLimitGrams: 1200,
   shippingRates: [
-    { upToGrams: 500, costUsd: 22 },
-    { upToGrams: 1000, costUsd: 34 },
-    { upToGrams: 2000, costUsd: 52 },
+    { upToGrams: 1100, costUsd: 34 },
+    { upToGrams: 1200, costUsd: 44 },
+    { upToGrams: 1450, costUsd: 54 },
     { upToGrams: 5000, costUsd: 72 },
   ],
 };
