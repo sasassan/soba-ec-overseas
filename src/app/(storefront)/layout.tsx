@@ -14,6 +14,11 @@ export default function StorefrontLayout({
 }) {
   return (
     <>
+      <div className="border-b border-ink-line bg-gold/10 px-4 py-1.5 text-center text-xs text-cream">
+        Demo store — products, prices, and shipping are placeholders. Test
+        orders only (sample US address); no real payment or shipping labels are
+        issued.
+      </div>
       <header className="border-b border-ink-line bg-ink/90 sticky top-0 z-20 backdrop-blur">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 flex items-center justify-between h-16">
           <Link href="/" className="font-serif text-xl tracking-wide text-cream">

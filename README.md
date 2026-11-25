@@ -38,13 +38,21 @@ http://localhost:3000/admin for the admin console.
 
 | Variable          | Required | Description                                             |
 | ----------------- | -------- | ------------------------------------------------------- |
-| `ADMIN_PASSWORD`  | No       | Admin password. Defaults to `admin` if unset.           |
+| `ADMIN_PASSWORD`  | Yes*     | Admin password. The `/admin` area is disabled until a strong (non-`admin`) password is set. |
 | `SESSION_SECRET`  | No       | Secret used to sign the admin session cookie.           |
 | `SQLITE_PATH`     | No       | Override the SQLite file path. Defaults to `data/soba.db`. |
+| `DATABASE_URL`    | No       | PostgreSQL connection string. When set, the app uses PostgreSQL instead of SQLite. |
+| `DATABASE_SSL`    | No       | Set to `true` to force TLS for PostgreSQL (auto-enabled for `sslmode=require` URLs). |
+
+\* `ADMIN_PASSWORD` is required to use the admin console (and recommended for
+production). It is intentionally *not* defaulted to a working password — when
+unset or left as `admin`, sign-in and admin mutations are disabled.
 
 ### Admin access
 
-Log in at `/admin` with the value of `ADMIN_PASSWORD` (default `admin`).
+Log in at `/admin` with the value of `ADMIN_PASSWORD`. The admin area (login,
+admin mutations, and previously issued sessions) is disabled until a strong
+(non-`admin`) password is configured.
 
 ## Build
 
@@ -55,16 +63,42 @@ npm run build
 ## Deploying to Vercel
 
 1. Push this repository to GitHub.
-2. Import it in Vercel and add the `ADMIN_PASSWORD` (and optionally
-   `SESSION_SECRET`) environment variable in **Project Settings → Environment
-   Variables**.
+2. Import it in Vercel and add the following environment variables in
+   **Project Settings → Environment Variables**:
+   - `ADMIN_PASSWORD` — a strong, non-default password (required for `/admin`).
+   - `SESSION_SECRET` — a long random string (recommended).
+   - `DATABASE_URL` — a hosted PostgreSQL connection string (e.g. Supabase,
+     Neon, or Vercel Postgres).
+   - `DATABASE_SSL=true` — if your provider requires TLS (or append
+     `?sslmode=require` to `DATABASE_URL`).
 3. Deploy.
 
-**Note on SQLite on Vercel**: Vercel's filesystem is read-only and ephemeral,
-so the database is stored under `/tmp` on Vercel and **resets between
-invocations**. SQLite here is intended for local development and demos only.
-For a persistent production store, replace the data layer in `src/lib/db.ts`
-with a hosted database (e.g. Supabase/Postgres).
+## Database
+
+The app supports two interchangeable storage backends, selected automatically
+by `src/lib/db.ts`:
+
+- **SQLite** (default) — used when `DATABASE_URL` is unset. Intended for local
+  development and demos only.
+- **PostgreSQL** — used when `DATABASE_URL` is set. This is the persistent
+  production backend (recommended for Vercel).
+
+### Initializing PostgreSQL
+
+The application applies the schema automatically on first run (see
+`src/lib/db-postgres.ts`, which embeds the same DDL as `schema.sql` and also
+seeds the `products` and `seasonal_box_templates` tables). You can also
+initialize the schema manually:
+
+```bash
+# Option 1: run the migration file directly against your Postgres database
+psql "$DATABASE_URL" -f schema.sql
+
+# Option 2: via the Supabase SQL editor — paste the contents of schema.sql
+```
+
+Keep `schema.sql` and the embedded DDL in `src/lib/db-postgres.ts` in sync when
+changing the schema.
 
 ## Project structure
 
@@ -76,7 +110,10 @@ src/
   lib/            # DB access, auth, pricing helpers
 ```
 
-## Data model (SQLite)
+## Data model
+
+The schema is identical for SQLite and PostgreSQL (see `schema.sql` for the
+PostgreSQL DDL; `src/lib/db-sqlite.ts` has the SQLite equivalent).
 
 - `products` — product master (seeded from `src/data/products.ts`)
 - `seasonal_box_templates` — seasonal box template (seeded)

@@ -14,9 +14,9 @@ export default async function OrderConfirmationPage({
   const orderId = Number(id);
   if (!Number.isInteger(orderId)) notFound();
 
-  const order = getOrder(orderId);
+  const order = await getOrder(orderId);
   if (!order) notFound();
-  const items = getOrderItems(orderId);
+  const items = await getOrderItems(orderId);
 
   return (
     <div className="mx-auto max-w-2xl px-4 sm:px-6 py-12">

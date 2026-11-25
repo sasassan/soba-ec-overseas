@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { isAuthenticated } from "@/lib/auth";
+import { isAdminPasswordSecure } from "@/lib/admin-password";
 import { login } from "@/app/admin/actions";
 
 export const metadata = {
@@ -15,6 +16,7 @@ export default async function AdminLoginPage({
     redirect("/admin/orders");
   }
   const { error } = await searchParams;
+  const disabled = !isAdminPasswordSecure();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-ink px-4">
@@ -23,6 +25,13 @@ export default async function AdminLoginPage({
         <p className="mt-2 text-sm text-cream-dim">
           Enter the admin password to continue.
         </p>
+
+        {disabled && (
+          <p className="mt-4 rounded border border-lacquer bg-lacquer/10 px-4 py-2 text-sm text-cream">
+            Admin access is disabled. Set a strong ADMIN_PASSWORD (not the
+            default) to enable sign-in.
+          </p>
+        )}
 
         {error && (
           <p className="mt-4 rounded border border-lacquer bg-lacquer/10 px-4 py-2 text-sm text-cream">
@@ -38,12 +47,14 @@ export default async function AdminLoginPage({
               name="password"
               autoFocus
               required
-              className="mt-1 w-full rounded border border-ink-line bg-ink-soft px-3 py-2 text-cream focus:border-gold-soft focus:outline-none"
+              disabled={disabled}
+              className="mt-1 w-full rounded border border-ink-line bg-ink-soft px-3 py-2 text-cream focus:border-gold-soft focus:outline-none disabled:opacity-50"
             />
           </label>
           <button
             type="submit"
-            className="w-full rounded border border-gold bg-gold/10 px-4 py-2.5 text-gold hover:bg-gold/20 transition-colors"
+            disabled={disabled}
+            className="w-full rounded border border-gold bg-gold/10 px-4 py-2.5 text-gold hover:bg-gold/20 transition-colors disabled:opacity-50"
           >
             Sign in
           </button>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOrder, getOrderItems } from "@/lib/db";
 import { formatUsd } from "@/lib/pricing";
+import { unitForCode } from "@/lib/units";
 import { PrintButton } from "@/components/print-button";
 
 export const dynamic = "force-dynamic";
@@ -9,6 +10,7 @@ export const dynamic = "force-dynamic";
 interface AggregatedItem {
   productCode: string;
   nameEn: string;
+  nameJa: string;
   quantity: number;
   unitPriceUsd: number;
   unitWeightGrams: number;
@@ -23,9 +25,9 @@ export default async function PackingSlipPage({
   const orderId = Number(id);
   if (!Number.isInteger(orderId)) notFound();
 
-  const order = getOrder(orderId);
+  const order = await getOrder(orderId);
   if (!order) notFound();
-  const items = getOrderItems(orderId);
+  const items = await getOrderItems(orderId);
 
   const aggregated = new Map<string, AggregatedItem>();
   for (const item of items) {
@@ -36,6 +38,7 @@ export default async function PackingSlipPage({
       aggregated.set(item.product_code, {
         productCode: item.product_code,
         nameEn: item.product_name_en,
+        nameJa: item.product_name_ja,
         quantity: item.quantity,
         unitPriceUsd: item.unit_price_usd,
         unitWeightGrams: item.weight_grams,
@@ -84,6 +87,24 @@ export default async function PackingSlipPage({
               <br />
               {order.country}
             </p>
+          </section>
+
+          <section className="mt-6">
+            <h2 className="font-serif text-lg text-cream">梱包内容</h2>
+            <ul className="mt-3 divide-y divide-ink-line text-sm">
+              {aggregatedItems.map((item) => (
+                <li
+                  key={item.productCode}
+                  className="flex items-center justify-between py-2"
+                >
+                  <span className="text-cream">{item.nameJa}</span>
+                  <span className="text-cream">
+                    {item.quantity}
+                    {unitForCode(item.productCode)}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </section>
 
           <section className="mt-6">

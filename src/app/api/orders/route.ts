@@ -109,7 +109,7 @@ export async function POST(request: Request) {
   const shippingUsd = getShippingCost(boxWeight);
   const totalUsd = subtotalUsd + shippingUsd;
 
-  const { id, orderNumber } = createOrder({
+  const { id, orderNumber } = await createOrder({
     customer: {
       name: customer.name as string,
       email: customer.email as string,
