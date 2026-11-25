@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+:root {
+  --background: #16130e;
+  --foreground: #ece4d2;
+}
+
+@theme {
+  --color-ink: #16130e;
+  --color-ink-soft: #221d15;
+  --color-ink-card: #2a2419;
+  --color-ink-line: #3a3123;
+  --color-cream: #ece4d2;
+  --color-cream-dim: #b8ad97;
+  --color-gold: #c9a15a;
+  --color-gold-soft: #a8873f;
+  --color-lacquer: #a63c2f;
+  --font-serif: "Georgia", "Times New Roman", "Hiragino Mincho ProN",
+    "Yu Mincho", "YuMincho", serif;
+  --font-sans: "ui-sans-serif", system-ui, -apple-system, "Segoe UI",
+    "Hiragino Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Print layout for the packing slip */
+@media print {
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-plain {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border-color: #000000 !important;
+  }
+  .print-plain * {
+    background: transparent !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+}
