@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getOrder, getOrderItems } from "@/lib/db";
 import { formatUsd } from "@/lib/pricing";
 import { ORDER_STATUS_LABELS } from "@/lib/status-labels";
+import { unitForCode } from "@/lib/units";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,9 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const order = Number.isInteger(Number(id)) ? getOrder(Number(id)) : undefined;
+  const order = Number.isInteger(Number(id))
+    ? await getOrder(Number(id))
+    : undefined;
   return { title: order ? `箱詰め ${order.order_number}` : "箱詰め" };
 }
 
@@ -34,9 +37,9 @@ export default async function PackingPage({
   const orderId = Number(id);
   if (!Number.isInteger(orderId)) notFound();
 
-  const order = getOrder(orderId);
+  const order = await getOrder(orderId);
   if (!order) notFound();
-  const items = getOrderItems(orderId);
+  const items = await getOrderItems(orderId);
 
   const aggregated = new Map<string, AggregatedItem>();
   for (const item of items) {
@@ -112,13 +115,15 @@ export default async function PackingPage({
               <tr key={item.productCode} className="text-cream">
                 <td className="py-2 pr-4">
                   {item.nameJa}
-                  {item.quantity > 1 && ` ×${item.quantity}`}
                   <span className="block text-xs text-cream-dim">
                     {item.nameEn}
                   </span>
                 </td>
                 <td className="py-2 pr-4 text-cream-dim">{item.productCode}</td>
-                <td className="py-2 pr-4">{item.quantity}</td>
+                <td className="py-2 pr-4">
+                  {item.quantity}
+                  {unitForCode(item.productCode)}
+                </td>
               </tr>
             ))}
           </tbody>

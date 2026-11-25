@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 export default async function AdminOrdersPage() {
-  const orders = listOrders();
+  const orders = await listOrders();
 
   return (
     <div>

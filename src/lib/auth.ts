@@ -2,6 +2,10 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { createHmac, timingSafeEqual } from "node:crypto";
+import {
+  getConfiguredAdminPassword,
+  isAdminPasswordSecure,
+} from "./admin-password";
 
 const COOKIE_NAME = "soba_admin_session";
 
@@ -18,7 +22,9 @@ function signSession(): string {
 }
 
 export function verifyAdminPassword(input: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD || "admin";
+  // Refuse access entirely when the default/weak password is still configured.
+  if (!isAdminPasswordSecure()) return false;
+  const expected = getConfiguredAdminPassword() as string;
   const a = Buffer.from(input);
   const b = Buffer.from(expected);
   if (a.length !== b.length) return false;
@@ -26,6 +32,9 @@ export function verifyAdminPassword(input: string): boolean {
 }
 
 export async function isAuthenticated(): Promise<boolean> {
+  // Even a previously issued session is rejected until a secure password is set.
+  if (!isAdminPasswordSecure()) return false;
+
   const cookieStore = await cookies();
   const value = cookieStore.get(COOKIE_NAME)?.value;
   if (!value) return false;
@@ -38,6 +47,11 @@ export async function isAuthenticated(): Promise<boolean> {
 }
 
 export async function createSession(): Promise<void> {
+  if (!isAdminPasswordSecure()) {
+    throw new Error(
+      "Admin session refused: ADMIN_PASSWORD is unset or still the default."
+    );
+  }
   const cookieStore = await cookies();
   cookieStore.set(COOKIE_NAME, signSession(), {
     httpOnly: true,
