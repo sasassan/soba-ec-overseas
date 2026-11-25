@@ -100,6 +100,34 @@ psql "$DATABASE_URL" -f schema.sql
 Keep `schema.sql` and the embedded DDL in `src/lib/db-postgres.ts` in sync when
 changing the schema.
 
+### Supabase setup (manual)
+
+The Supabase CLI is available via `npx supabase`, but creating a project
+programmatically requires a personal access token (`SUPABASE_ACCESS_TOKEN`) or
+an interactive `supabase login`. If neither is available, set up Supabase
+manually:
+
+1. Create an account and a new project at <https://supabase.com>. Name it
+   `soba-ec-overseas` and pick a region close to your customers.
+2. (Recommended) In **SQL Editor → New query**, paste the contents of
+   `schema.sql` and click **Run**. This creates the `products`,
+   `seasonal_box_templates`, `orders`, and `order_items` tables. This step is
+   optional because the app applies the same DDL automatically on first run,
+   but it gives you a clean, verified baseline.
+3. Copy the connection string: **Project Settings → Database → Connection
+   string**. Use the **URI** (or the **Session pooler** URI for serverless
+   environments such as Vercel).
+4. In Vercel **Project Settings → Environment Variables**, set:
+   - `DATABASE_URL` — the connection string from step 3.
+   - `DATABASE_SSL=true` — Supabase requires TLS. (Alternatively append
+     `?sslmode=require` to `DATABASE_URL`.)
+
+> **Note on this deployment:** the live project uses a **Neon** PostgreSQL
+> database provisioned through the Vercel Marketplace (`vercel install neon`)
+> because no Supabase access token was available in this environment. The app
+> is provider-agnostic — any PostgreSQL `DATABASE_URL` works — so the Supabase
+> steps above are the manual alternative and are fully interchangeable.
+
 ## Project structure
 
 ```
